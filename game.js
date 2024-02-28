@@ -1,11 +1,11 @@
-var config = {
+;var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 200 },
             debug: false
         }
     },
@@ -26,56 +26,68 @@ var scoreText;
 
 function preload ()
 {
-        this.load.image('sky', 'assets/sky.png');
+        this.load.image('wood', 'assets/wood.png');
         this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
+        this.load.image('bbb', 'assets/bbb.png');
         this.load.image('bomb', 'assets/bomb.png');
-        this.load.spritesheet('dude', 
-            'assets/dude.png',
-            { frameWidth: 32, frameHeight: 48 }
+        this.load.spritesheet('witch', 'assets/B_witch_run2.png',{ frameWidth: 32, frameHeight: 48 }
         );
     
 }
 
 function create ()
 {
-    this.add.image(400,300, 'sky');
+    this.add.image(0,0, 'wood').setOrigin(0,0).setScale(2)
+
     platforms = this.physics.add.staticGroup();
 
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
+    platforms.create(500, 650, 'ground').setScale(1.1).refreshBody();
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
+    platforms.create(200, 900, 'ground');
+    platforms.create(600, 900, 'ground');
+    platforms.create(1000, 900, 'ground');
+    platforms.create(1400, 900, 'ground');
+    platforms.create(1700, 900, 'ground');
 
-    player = this.physics.add.sprite(100, 450, 'dude');
+    
+    platforms.create(1300, 500, 'ground');
+    platforms.create(1600, 300, 'ground');
+    platforms.create(1800, 700, 'ground');
+    
+
+  
+
+
+    player = this.physics.add.sprite(100, 400, 'witch').setScale(2);
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+        frames: this.anims.generateFrameNumbers('witch', { start: 0, end: 0 }),
         frameRate: 10,
         repeat: -1
     });
 
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
+        frames: [ { key: 'witch', frame: 4 } ],
         frameRate: 20
     });
 
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+        frames: this.anims.generateFrameNumbers('witch', { start: 0, end: 0 }),
         frameRate: 10,
         repeat: -1
     });
     cursors = this.input.keyboard.createCursorKeys();
     stars = this.physics.add.group({
-        key: 'star',
-        repeat: 11,
+        key: 'bbb',
+        repeat: 150,
         setXY: { x: 12, y: 0, stepX: 70 }
     });
 
@@ -88,6 +100,13 @@ function create ()
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.overlap(player, stars, collectStar, null, this);
+    this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, 1000);
+  // Встановлення меж фізичного світу
+  this.cameras.main.setBounds(0, 0, WORLD_WIDTH, 1080); // Set the bounds of the camera to match the width of the game world
+    this.cameras.main.startFollow(player);
+
+  // Слідкування камери за гравцем
+  this.cameras.main.startFollow(player);
 }
 
 function update ()
@@ -119,6 +138,8 @@ function update ()
 function collectStar (player, star)
 {
     star.disableBody(true, true);
-    score += 10;
+    score += 1;
     scoreText.setText('Score: ' + score);
 }
+// Константа, щоб визначити ширину фону
+const WORLD_WIDTH = 5000; // Змінено ширину світу для відображення додаткової платформи
