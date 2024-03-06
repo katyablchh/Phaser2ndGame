@@ -2,6 +2,7 @@
     type: Phaser.AUTO,
     width: 1920,
     height: 1080,
+    pixelArt: true,
     physics: {
         default: 'arcade',
         arcade: {
@@ -26,10 +27,11 @@ var scoreText;
 
 function preload ()
 {
-        this.load.image('wood', 'assets/wood.png');
+        this.load.image('tree', 'assets/tree.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('bbb', 'assets/bbb.png');
-        this.load.image('bomb', 'assets/bomb.png');
+        this.load.image('rock','assets/rock.png')
+        this.load.image('wood','assets/wood.png')
         this.load.spritesheet('witch', 'assets/B_witch_run2.png',{ frameWidth: 32, frameHeight: 48 }
         );
     
@@ -38,28 +40,24 @@ function preload ()
 function create ()
 {
     this.add.image(0,0, 'wood').setOrigin(0,0).setScale(2)
+    this.add.image(0,636, 'tree').setOrigin(0,0).setScale(2)
+    this.add.image(305,506, 'tree').setOrigin(0,0).setScale(3)
+    this.add.image(755,576, 'tree').setOrigin(0,0).setScale(2.5)
+    this.add.image(1409,436, 'tree').setOrigin(0,0).setScale(3.6)
+
+    this.add.image(200,731, 'rock').setOrigin(0,0).setScale(2)
+    this.add.image(550,802, 'rock').setOrigin(0,0).setScale(1)
+    this.add.image(790,749, 'rock').setOrigin(0,0).setScale(1.7)
+
+
 
     platforms = this.physics.add.staticGroup();
-
-    platforms.create(500, 650, 'ground').setScale(1.1).refreshBody();
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
     platforms.create(200, 900, 'ground');
     platforms.create(600, 900, 'ground');
     platforms.create(1000, 900, 'ground');
     platforms.create(1400, 900, 'ground');
-    platforms.create(1700, 900, 'ground');
-
+    platforms.create(1722, 900, 'ground');
     
-    platforms.create(1300, 500, 'ground');
-    platforms.create(1600, 300, 'ground');
-    platforms.create(1800, 700, 'ground');
-    
-
-  
-
-
     player = this.physics.add.sprite(100, 400, 'witch').setScale(2);
 
     player.setBounce(0.2);
@@ -107,7 +105,10 @@ function create ()
 
   // Слідкування камери за гравцем
   this.cameras.main.startFollow(player);
+  trees = this.physics.add.staticGroup();
+
 }
+
 
 function update ()
 {
