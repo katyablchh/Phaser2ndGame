@@ -36,9 +36,8 @@ function preload ()
         this.load.image('wood','assets/wood.png')
         this.load.image('ground','assets/groung.png')
         this.load.image('gr2','assets/gr2.png')
-        this.load.spritesheet('mash', 'assets/mash.png',{ frameWidth: 32, frameHeight: 48 } );
-        this.load.spritesheet('witch', 'assets/B_witch_run2.png',{ frameWidth: 32, frameHeight: 48 }
-        );
+        this.load.image('wolfR', 'assets/wolfright.png');
+        this.load.spritesheet('witch', 'assets/B_witch_run2.png',{ frameWidth: 32, frameHeight: 48 });
     
 }
 
@@ -125,21 +124,21 @@ function create ()
   this.cameras.main.startFollow(player);
   trees = this.physics.add.staticGroup();
 
-  mash = this.physics.add.sprite(810, 400, 'dudeleft').setDepth(5).setScale(2);
-  mash.setCollideWorldBounds(true);
-  mash.setBounce(1);
-  mash.setVelocityY(230);
-  mash.setVelocityX(180);
+  wolfR = this.physics.add.sprite(810, 400, 'dudeleft').setDepth(5).setScale(2);
+  wolfR.setCollideWorldBounds(true);
+  wolfR.setBounce(1);
+  wolfR.setVelocityY(230);
+  wolfR.setVelocityX(180);
   var direction = -1; // Починаємо з руху вліво
-  mash.setVelocityX(180 * direction); // Встановлення початкової швидкості
+  wolfR.setVelocityX(180 * direction); // Встановлення початкової швидкості
   var direction = Phaser.Math.Between(0, 1) ? 1 : -1; // 1 - рух вправо, -1 - рух вліво
-    mash.setVelocityX(180 * direction); // Встановлення швидкості залежно від напрямку
+  wolfR.setVelocityX(180 * direction); // Встановлення швидкості залежно від напрямку
 
   // Зміна напрямку руху через певний інтервал часу
   setInterval(function() {
       // Зміна напрямку руху
       direction *= -1; // Змінюємо напрямок (з вліво на вправо або навпаки)
-      mash.setVelocityX(180 * direction); // Встановлюємо нову швидкість залежно від напрямку
+      wolfR.setVelocityX(180 * direction); // Встановлюємо нову швидкість залежно від напрямку
     }, Phaser.Math.Between(1000, 50000)); // Час зміни напрямку в мілісекундах (наприклад, 3000 мс = 3 с)
 
 }
